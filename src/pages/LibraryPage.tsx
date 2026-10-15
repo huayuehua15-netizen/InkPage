@@ -83,7 +83,11 @@ export function LibraryPage() {
           keyword={keyword}
           results={searchResults}
           onOpenBook={(book) => openBook(book.id)}
-          onJump={(book, percent) => navigate(`/read/${book.id}?p=${percent.toFixed(2)}`)}
+          onJump={(book, percent) =>
+            navigate(
+              `/read/${book.id}?p=${percent.toFixed(2)}&q=${encodeURIComponent(keyword.trim())}`
+            )
+          }
         />
       ) : loading ? (
         <div className="empty-state">

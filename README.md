@@ -77,9 +77,8 @@ npm run build
    git remote add origin https://github.com/<你的用户名>/<仓库名>.git
    git push -u origin main
    ```
-2. 仓库 **Settings → Pages**：
-   - Source 选择 `Deploy from a branch`
-   - Branch 选择 `main` / `root`（或使用 GitHub Actions 构建后发布 `dist/`）
+2. 仓库 **Settings → Pages**：Source 选择 **GitHub Actions**。
+   > 构建产物 `dist/` 不入库，必须用 Actions 在云端构建（本仓库已含 `.github/workflows/deploy-pages.yml`）。推送 main 后会自动构建并发布。
 3. 打开 `https://<你的用户名>.github.io/<仓库名>/`，在手机浏览器中选择"添加到主屏幕"即可像 APP 一样使用。
 
 > 项目使用 `HashRouter` + `base: './'`，无需任何服务器配置即可部署在任意子路径。

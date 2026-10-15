@@ -13,6 +13,9 @@ import { readNativeFile } from '../utils/fileImport';
 export function useNativeFileOpen(onError?: (msg: string) => void) {
   const navigate = useNavigate();
   const busyRef = useRef(false);
+  // 用 ref 保存 onError，避免 effect 因调用方内联函数反复重注册监听器
+  const onErrorRef = useRef(onError);
+  onErrorRef.current = onError;
 
   useEffect(() => {
     if (!Capacitor.isNativePlatform()) return;
@@ -40,7 +43,7 @@ export function useNativeFileOpen(onError?: (msg: string) => void) {
         await addBook(book);
         navigate(`/read/${id}`);
       } catch (e) {
-        onError?.(e instanceof Error ? e.message : '打开文件失败');
+        onErrorRef.current?.(e instanceof Error ? e.message : '打开文件失败');
       } finally {
         busyRef.current = false;
       }
@@ -62,5 +65,5 @@ export function useNativeFileOpen(onError?: (msg: string) => void) {
     return () => {
       void handle?.remove();
     };
-  }, [navigate, onError]);
+  }, [navigate]);
 }

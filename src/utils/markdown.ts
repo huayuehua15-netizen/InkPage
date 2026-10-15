@@ -71,6 +71,41 @@ export function renderMarkdown(content: string): { html: string; toc: TocItem[] 
     }
   });
 
+  // 任务列表：把列表项开头的 [ ] / [x] 渲染为 checkbox（markdown-it 原生不支持）
+  md.core.ruler.push('inkpage_task_list', (state) => {
+    const tokens = state.tokens;
+    for (let i = 0; i < tokens.length; i++) {
+      if (tokens[i].type !== 'list_item_open') continue;
+      // 找到该列表项内的首个 inline token（紧随其后的第一个）
+      for (let j = i + 1; j < tokens.length && tokens[j].type !== 'list_item_close'; j++) {
+        if (tokens[j].type !== 'inline') continue;
+        const inline = tokens[j];
+        const m = inline.content.match(/^\[([ xX])\]\s+/);
+        if (m && inline.children && inline.children.length) {
+          const checked = m[1] !== ' ';
+          // 从首段纯文本节点中去掉 [ ] 标记
+          const first = inline.children[0];
+          if (first.type === 'text') {
+            first.content = first.content.replace(/^\[([ xX])\]\s+/, '');
+          }
+          inline.content = inline.content.replace(/^\[([ xX])\]\s+/, '');
+          // 在最前面插入 checkbox
+          const box = new state.Token('html_inline', '', 0);
+          box.content = `<input type="checkbox" disabled${checked ? ' checked' : ''}>`;
+          inline.children.unshift(box);
+          // 任务列表禁用默认圆点
+          if (inline.children[0]) {
+            // 尝试给 li 加 class（若 list_item_open 支持 attrSet）
+            const li = tokens[i];
+            const cls = li.attrGet('class');
+            li.attrSet('class', cls ? `${cls} task-list-item` : 'task-list-item');
+          }
+        }
+        break;
+      }
+    }
+  });
+
   const html = md.render(content);
   return { html, toc };
 }

@@ -98,6 +98,11 @@
   accent-color: var(--accent);
 }
 
+.reader-content li.task-list-item {
+  list-style: none;
+  margin-left: -1.2em;
+}
+
 /* 水平线 */
 .reader-content hr {
   border: none;

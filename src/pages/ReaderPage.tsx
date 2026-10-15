@@ -54,23 +54,44 @@ export function ReaderPage() {
     toastTimer.current = window.setTimeout(() => setToast(''), 1800);
   }, []);
 
-  /* 恢复进度：优先 URL 参数 p（搜索跳转），否则恢复上次进度 */
+  /* 恢复进度：搜索跳转（q 关键词优先，p 百分比兜底）或恢复上次进度 */
   useEffect(() => {
     if (!rendered || restored.current) return;
     const pParam = searchParams.get('p');
+    const qParam = searchParams.get('q');
     const target = pParam !== null ? Number(pParam) : initialPercent;
-    if (target === null) return;
-    const pct = Math.min(100, Math.max(0, target));
+    if (target === null && qParam === null) return;
+    const pct = Math.min(100, Math.max(0, target ?? 0));
     // 等待布局完成；图片加载可能改变高度，最多重试 20 次
     let attempts = 0;
     let timer: number | undefined;
     const apply = () => {
+      // 搜索跳转：精确定位第一个包含关键词的块级元素
+      if (qParam) {
+        const kw = qParam.toLowerCase();
+        const els = contentRef.current?.querySelectorAll('p, li, h1, h2, h3, h4, h5, h6, blockquote, td');
+        if (els) {
+          for (const el of Array.from(els)) {
+            if ((el.textContent ?? '').toLowerCase().includes(kw)) {
+              el.scrollIntoView({ block: 'start' });
+              window.scrollBy(0, -80); // 让目标落到工具栏下方
+              const max = document.documentElement.scrollHeight - window.innerHeight;
+              const p = max > 0 ? (window.scrollY / max) * 100 : 0;
+              setPercent(p);
+              restored.current = true;
+              setSearchParams({}, { replace: true });
+              return;
+            }
+          }
+        }
+        // 关键词未找到则按百分比兜底
+      }
       const max = document.documentElement.scrollHeight - window.innerHeight;
       if (max > 0) {
         window.scrollTo(0, (pct / 100) * max);
         setPercent(pct);
         restored.current = true;
-        if (pParam !== null) setSearchParams({}, { replace: true });
+        if (pParam !== null || qParam !== null) setSearchParams({}, { replace: true });
         return;
       }
       if (++attempts < 20) timer = window.setTimeout(apply, 100);
