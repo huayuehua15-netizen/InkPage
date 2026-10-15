@@ -1,0 +1,20 @@
+node_modules
+dist
+.DS_Store
+*.local
+.vscode/*
+!.vscode/extensions.json
+.trae/
+
+# Android
+android/local.properties
+android/.gradle
+android/app/build
+android/build
+# cap sync 生成的 Web 产物，构建前会自动重新生成
+android/app/src/main/assets/public
+android/app/src/main/assets/capacitor.config.json
+*.keystore
+*.jks
+# 构建产物（README 说明如何打包）
+*.apk

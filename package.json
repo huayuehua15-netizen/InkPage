@@ -1,0 +1,40 @@
+{
+  "name": "inkpage-reader",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "InkPage — 本地 TXT / Markdown 阅读器（免登录，可安装 PWA）",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "icons": "node scripts/generate-icons.mjs",
+    "android:sync": "npm run build && cap sync android",
+    "android:apk": "powershell -ExecutionPolicy Bypass -File scripts/build-apk.ps1",
+    "android:apk:release": "powershell -ExecutionPolicy Bypass -File scripts/build-apk.ps1 -Release",
+    "android:open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.5.3",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/cli": "^8.5.3",
+    "@capacitor/core": "^8.5.3",
+    "@capacitor/filesystem": "^8.1.4",
+    "highlight.js": "^11.9.0",
+    "idb": "^8.0.0",
+    "markdown-it": "^14.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "^14.1.2",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "sharp": "^0.35.5",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.0"
+  }
+}

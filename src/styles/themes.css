@@ -1,0 +1,73 @@
+/* ============ 主题：日间 / 夜间 / 护眼 / 羊皮纸 ============ */
+
+:root {
+  --font-serif: 'Georgia', 'Songti SC', 'Noto Serif SC', 'SimSun', serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', sans-serif;
+  --font-mono: 'SF Mono', 'JetBrains Mono', Consolas, 'Courier New', monospace;
+}
+
+/* 日间（默认） */
+:root,
+[data-theme='day'] {
+  --bg: #faf7f2;
+  --surface: #f1ebe2;
+  --text: #2b2a26;
+  --text-secondary: #7a7468;
+  --border: #e6ddd0;
+  --accent: #2f6b52;
+  --on-accent: #ffffff;
+  --danger: #c0563c;
+  --code-bg: #f1ebe2;
+  --quote-bg: #f4efe7;
+  --quote-border: #d8cbb6;
+  --highlight: rgba(47, 107, 82, 0.16);
+}
+
+/* 夜间 */
+[data-theme='night'] {
+  --bg: #1b1d20;
+  --surface: #26292d;
+  --text: #c9c7c1;
+  --text-secondary: #8a8781;
+  --border: #33363b;
+  --accent: #7fbf9e;
+  --on-accent: #12241b;
+  --danger: #e07a62;
+  --code-bg: #26292d;
+  --quote-bg: #22252a;
+  --quote-border: #3d434a;
+  --highlight: rgba(127, 191, 158, 0.22);
+}
+
+/* 护眼 */
+[data-theme='sepia'] {
+  --bg: #cfe2d8;
+  --surface: #c2d8cc;
+  --text: #2c3b33;
+  --text-secondary: #5d7268;
+  --border: #b0c7ba;
+  --accent: #2c6650;
+  --on-accent: #ffffff;
+  --danger: #a75b42;
+  --code-bg: #c2d8cc;
+  --quote-bg: #c7dbcf;
+  --quote-border: #9db8a9;
+  --highlight: rgba(44, 102, 80, 0.18);
+}
+
+/* 羊皮纸 */
+[data-theme='paper'] {
+  --bg: #f0e3c8;
+  --surface: #e6d5b5;
+  --text: #4a3b25;
+  --text-secondary: #8a7350;
+  --border: #d5c19c;
+  --accent: #8c5f2b;
+  --on-accent: #fff8ea;
+  --danger: #a24b2e;
+  --code-bg: #e6d5b5;
+  --quote-bg: #ead9ba;
+  --quote-border: #c6ab7c;
+  --highlight: rgba(140, 95, 43, 0.2);
+}
